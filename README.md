@@ -27,9 +27,11 @@ Basic Usage
 2. To run THP interactively got to http://yourServer/thp.php then enter your code in the textarea and hit the OK button (or just TAB out of the textarea) to see the result.
 
 Try
+		
 		(plus 2 2)
 	
 or
+		
 		(terpri "Hello, World!")
 	
 3. To run THP from a LISP source file you have created in a text editor, make the file, give it a .thp extension (for good manners). Lets say something like:
