@@ -61,22 +61,40 @@ A basic web page script in THP looks like this:
 				    
 A more useful web page script in THP, saved as "testform.thp", looks like this:
 
-		(comment "Read the previoiusly submitted value
-		          which will be nil if nothing has happened yet.
-		          (get_CGI_arg ..) can read POST or GET values.")
-		          
+		
+		(comment "Anything in a (comment ...) block is discarded by the parser, and vanishes to nothing when the code is run
+		          I mean it's not even NULL, it just vapourises completely like it wasn't even there.
+		          Oh, and strings (like this one) can span multiple lines.")
+		
+		(comment "Read the previoiusly submitted value - (get_CGI_arg ..) can read POST or GET values, or even cookies.")          
 		(setq lastEnteredValue (get_CGI_arg 'theValue))
 		
+		
+        (comment "To deliver a web page we get THP to print it out...")		
 		(print
 			(html 
 				(htmlblock 'head ()
 					(htmlblock 'title () "My more useful page"))
+
 				(htmlblock 'body ()
-					(htmlblock 'form ((action "thp.php?load=testform.thp))
+				    
+				    (comment "Display the data entered last time in a DIV to show that we can. NOTE how string interpolation works here...")
+				    (htmlblock 'div () "The last value typed was: |lastEnteredValue|")
+				    
+				    (comment "We need to set the form's action attribute to thp.php")
+					(htmlblock 'form ((action "thp.php"))
+					  
+					    (comment "We need to tell THP to load our script again...")
+					    (htmltag 'input ((type 'hidden)
+					                     (name 'load)
+					                     (value 'testform.thp)))
+					                     
+					    (comment "Provide a text input to enter data into and name it theValue so we can read it")                 
 						(htmltag 'input ((type 'text)
-						                 (name 'theValue)
-						                 (value lastEnteredValue)))
-						(htmltag 'submit ((value 'OK)))))))
+						                 (name 'theValue)))
+						
+						(comment "A simple submit button")                 
+						(htmltag 'input ((type 'submit)(value 'OK)))))))
 					
 
 
